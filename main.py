@@ -43,7 +43,7 @@ if __name__ == '__main__':
             key = extractKey(page.content.decode('UTF-8'), TARGET, SHIFT_LEFT, LENGTH)
             if len(key) > 0:
                 break
-            time.sleep(1)
+            time.sleep(5)
             attempts += 1
         print(f"[{i}] {ip} : {key}")
         keys.append(key)
