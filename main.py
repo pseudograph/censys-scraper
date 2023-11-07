@@ -33,19 +33,21 @@ if __name__ == '__main__':
     print(f"Query complete. {len(ips)} IPs retrieved.")
     HEADERS = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'}
 
+    i = 0
     for ip in ips:
         url = f"https://search.censys.io/hosts/{ip}/data/json"
-        page = requests.get(url, headers=HEADERS)
         key = ''
         attempts = 0
-        while len(key) == 0 and attempts < 5:
+        while len(key) == 0 and attempts < 10:
+            page = requests.get(url, headers=HEADERS)
             key = extractKey(page.content.decode('UTF-8'), TARGET, SHIFT_LEFT, LENGTH)
             if len(key) > 0:
                 break
             time.sleep(1)
             attempts += 1
-        print(f"{ip} : {key}")
+        print(f"[{i}] {ip} : {key}")
         keys.append(key)
+        i += 1
 
     for key in keys:
         if len(key) > 0:
